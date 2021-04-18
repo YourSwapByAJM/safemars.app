@@ -257,10 +257,14 @@ const Swap = () => {
     [onCurrencySelection, checkForSyrup]
   )
 
+    const tokenWarning: boolean = useMemo(() => {
+        return !!urlLoadedTokens.filter((c): c is Token => c.symbol !== "SAFEMARS" && c.symbol !== "BNB").length
+    }, [urlLoadedTokens])
+
   return (
     <>
       <TokenWarningModal
-        isOpen={urlLoadedTokens.length > 0 && !dismissTokenWarning}
+        isOpen={tokenWarning && !dismissTokenWarning}
         tokens={urlLoadedTokens}
         onConfirm={handleConfirmTokenWarning}
       />

@@ -230,6 +230,9 @@ function validatedRecipient(recipient: any): string | null {
 export function queryParametersToSwapState(parsedQs: ParsedQs): SwapState {
   let inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency)
   let outputCurrency = parseCurrencyFromURLParameter(parsedQs.outputCurrency)
+    if (inputCurrency === outputCurrency && outputCurrency === 'BNB') {
+        outputCurrency = "0x3aD9594151886Ce8538C1ff615EFa2385a8C3A88"
+    }
   if (inputCurrency === outputCurrency) {
     if (typeof parsedQs.outputCurrency === 'string') {
       inputCurrency = ''

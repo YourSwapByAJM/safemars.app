@@ -12,7 +12,7 @@
   "tokens": [
       {
           "name": "SafeMars",
-          "symbol": "SMARS",
+          "symbol": "SAFEMARS",
           "address": "0x3aD9594151886Ce8538C1ff615EFa2385a8C3A88",
           "chainId": 56,
           "decimals": 9,

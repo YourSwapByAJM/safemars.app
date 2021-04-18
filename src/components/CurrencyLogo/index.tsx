@@ -33,7 +33,7 @@ export default function CurrencyLogo({
   const uriLocations = useHttpLocations(currency instanceof WrappedTokenInfo ? currency.logoURI : undefined)
 
   const srcs: string[] = useMemo(() => {
-    if (currency === ETHER) return []
+    if (currency === ETHER || (currency && currency.symbol === 'SMARS')) return []
 
     if (currency instanceof Token) {
       if (currency instanceof WrappedTokenInfo) {
@@ -47,6 +47,15 @@ export default function CurrencyLogo({
 
   if (currency === ETHER) {
     return <StyledBnbLogo src="/images/coins/bnb.png" size={size} style={style} />
+  }
+
+  if (currency && currency.symbol === 'SMARS') {
+    let logoURI = "";
+
+    if (currency instanceof WrappedTokenInfo) {
+        logoURI = currency.logoURI ?? ""
+    }
+    return <StyledBnbLogo src={logoURI ?? ""} size={size} style={style} />
   }
 
   return (currency as any)?.symbol ? (

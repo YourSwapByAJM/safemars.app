@@ -10,6 +10,14 @@
   "logoURI": "https://exchange.pancakeswap.finance/images/pancakeswap.png",
   "keywords": ["pancake", "default"],
   "tokens": [
+      {
+          "name": "SafeMars",
+          "symbol": "SMARS",
+          "address": "0x3aD9594151886Ce8538C1ff615EFa2385a8C3A88",
+          "chainId": 56,
+          "decimals": 9,
+          "logoURI": "/images/coins/0x3aD9594151886Ce8538C1ff615EFa2385a8C3A88.svg"
+      },
     {
       "name": "WBNB Token",
       "symbol": "WBNB",
@@ -1121,14 +1129,6 @@
       "chainId": 56,
       "decimals": 18,
       "logoURI": "https://exchange.pancakeswap.finance/images/coins/0x7c17c8bed8d14bacce824d020f994f4880d6ab3b.png"
-    },
-    {
-      "name": "SafeMoon",
-      "symbol": "SAFEMOON",
-      "address": "0x8076c74c5e3f5852037f31ff0093eeb8c8add8d3",
-      "chainId": 56,
-      "decimals": 9,
-      "logoURI": "https://exchange.pancakeswap.finance/images/coins/0x8076c74c5e3f5852037f31ff0093eeb8c8add8d3.png"
     },
     {
       "name": "Tau Bitcoin",

@@ -24,7 +24,7 @@ const getRowStatus = (sortedRecentTransaction: TransactionDetails) => {
   }
 
   if (hash && receipt?.status === 1) {
-    return { icon: <CheckmarkCircleIcon color="success" />, color: 'success' }
+    return { icon: <CheckmarkCircleIcon color="primary" />, color: 'primary' }
   }
 
   return { icon: <ErrorIcon color="failure" />, color: 'failure' }
@@ -71,7 +71,7 @@ const RecentTransactionsModal = ({ onDismiss = defaultOnDismiss, translateString
           return (
             <>
               <Flex key={hash} alignItems="center" justifyContent="space-between" mb="4px">
-                <LinkExternal href={getBscScanLink(chainId, hash, 'transaction')} color={color}>
+                <LinkExternal href={getBscScanLink(chainId, hash, 'transaction')} color={color} >
                   {summary ?? hash}
                 </LinkExternal>
                 {icon}

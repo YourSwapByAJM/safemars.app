@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Box, Button, Flex, Input, Text } from '@pancakeswap-libs/uikit'
+import { Box, Button, Flex, Input, Text } from 'pancake-uikit'
 import { useUserSlippageTolerance } from 'state/user/hooks'
 import QuestionHelper from '../QuestionHelper'
 
@@ -91,7 +91,7 @@ const SlippageToleranceSettings = ({ translateString }: SlippageToleranceSetting
 
             return (
               <Option key={predefinedValue}>
-                <Button variant={value === predefinedValue ? 'primary' : 'tertiary'} onClick={handleClick}>
+                <Button variant={value === predefinedValue ? 'primary' : 'secondary'} onClick={handleClick}>
                   {label}
                 </Button>
               </Option>

@@ -1,7 +1,8 @@
 import { CurrencyAmount, JSBI, Token, Trade } from '@pancakeswap-libs/sdk'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { opacify } from 'polished'
 import { ArrowDown } from 'react-feather'
-import { CardBody, ArrowDownIcon, Button, IconButton, Text } from '@pancakeswap-libs/uikit'
+import { CardBody, ArrowDownIcon, Button, IconButton, Text } from 'pancake-uikit'
 import { ThemeContext } from 'styled-components'
 import AddressInputPanel from 'components/AddressInputPanel'
 import Card, { GreyCard } from 'components/Card'
@@ -314,7 +315,7 @@ const Swap = () => {
                         setApprovalSubmitted(false) // reset 2 step UI for approvals
                         onSwitchTokens()
                       }}
-                      style={{ borderRadius: '50%' }}
+                      style={{ borderRadius: '50%', backgroundColor: opacify(1, theme.colors.invertedContrast) }}
                       scale="sm"
                     >
                       <ArrowDownIcon color="primary" width="24px" />
@@ -357,7 +358,7 @@ const Swap = () => {
               ) : null}
 
               {showWrap ? null : (
-                <Card padding=".25rem .75rem 0 .75rem" borderRadius="20px">
+                <Card padding=".25rem .75rem 0 .75rem" borderRadius="10px">
                   <AutoColumn gap="4px">
                     {Boolean(trade) && (
                       <RowBetween align="center">

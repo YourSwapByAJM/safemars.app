@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal } from '@pancakeswap-libs/uikit'
+import { Modal } from 'pancake-uikit'
 import SlippageToleranceSetting from './SlippageToleranceSetting'
 import TransactionDeadlineSetting from './TransactionDeadlineSetting'
 import AudioSetting from './AudioSetting'
@@ -17,7 +17,6 @@ const SettingsModal = ({ onDismiss = defaultOnDismiss, translateString }: Settin
     <Modal title={translateString(1200, 'Settings')} onDismiss={onDismiss}>
       <SlippageToleranceSetting translateString={translateString} />
       <TransactionDeadlineSetting translateString={translateString} />
-      <AudioSetting translateString={translateString} />
     </Modal>
   )
 }

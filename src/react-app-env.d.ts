@@ -1,3 +1,4 @@
+/// <reference types="@pancake-swap-interface/args" />
 /// <reference types="react-scripts" />
 
 declare module 'jazzicon' {

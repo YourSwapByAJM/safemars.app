@@ -24,7 +24,11 @@ type MergedState = {
 const PERSISTED_KEYS: string[] = ['user', 'transactions']
 const loadedState = load({ states: PERSISTED_KEYS }) as MergedState
 if (loadedState.user) {
-  loadedState.user.userDarkMode = getThemeCache()
+  loadedState.user.userDarkMode = true // getThemeCache()
+} else {
+    loadedState.user = {
+        userDarkMode: true
+    }
 }
 
 const store = configureStore({

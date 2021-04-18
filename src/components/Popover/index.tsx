@@ -1,5 +1,5 @@
 import { Placement } from '@popperjs/core'
-import { transparentize } from 'polished'
+import { transparentize, opacify } from 'polished'
 import React, { useCallback, useState } from 'react'
 import { usePopper } from 'react-popper'
 import styled from 'styled-components'
@@ -13,9 +13,9 @@ const PopoverContainer = styled.div<{ show: boolean }>`
   opacity: ${(props) => (props.show ? 1 : 0)};
   transition: visibility 150ms linear, opacity 150ms linear;
 
-  background: ${({ theme }) => theme.colors.invertedContrast};
+  background: ${({ theme }) => opacify(1, theme.colors.invertedContrast)};
   border: 1px solid ${({ theme }) => theme.colors.tertiary};
-  box-shadow: 0 4px 8px 0 ${transparentize(0.9, '#2F80ED')};
+  box-shadow: 0 2px 4px 0 ${({theme}) => transparentize(0.9, theme.colors.primary)};
   color: ${({ theme }) => theme.colors.textSubtle};
   border-radius: 8px;
 `

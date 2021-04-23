@@ -1,15 +1,17 @@
 import { Currency, ETHER, Token } from '@pancakeswap-libs/sdk'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
+
+import EthereumLogo from '../../assets/images/bnb.png'
+import SafeMarsLogo from '../../assets/images/safemars-logo.svg'
 import useHttpLocations from '../../hooks/useHttpLocations'
 import { WrappedTokenInfo } from '../../state/lists/hooks'
 import Logo from '../Logo'
-import CoinLogo from '../pancake/CoinLogo'
 
-const getTokenLogoURL = (address: string) =>
-  `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/assets/${address}/logo.png`
+export const getTokenLogoURL = (address: string) =>
+  `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
 
-const StyledBnbLogo = styled.img<{ size: string }>`
+const StyledEthereumLogo = styled.img<{ size: string }>`
   width: ${({ size }) => size};
   height: ${({ size }) => size};
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.075);
@@ -19,12 +21,15 @@ const StyledBnbLogo = styled.img<{ size: string }>`
 const StyledLogo = styled(Logo)<{ size: string }>`
   width: ${({ size }) => size};
   height: ${({ size }) => size};
+  border-radius: ${({ size }) => size};
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.075);
+  background-color: ${({ theme }) => theme.white};
 `
 
 export default function CurrencyLogo({
   currency,
   size = '24px',
-  style,
+  style
 }: {
   currency?: Currency
   size?: string
@@ -33,34 +38,24 @@ export default function CurrencyLogo({
   const uriLocations = useHttpLocations(currency instanceof WrappedTokenInfo ? currency.logoURI : undefined)
 
   const srcs: string[] = useMemo(() => {
-    if (currency === ETHER || (currency && currency.symbol === 'SAFEMARS')) return []
+    if (currency === ETHER || (currency ?? {}).symbol === 'SAFEMARS') return []
 
     if (currency instanceof Token) {
       if (currency instanceof WrappedTokenInfo) {
-        return [...uriLocations, `/images/coins/${currency?.address ?? 'token'}.png`, getTokenLogoURL(currency.address)]
+        return [...uriLocations, getTokenLogoURL(currency.address)]
       }
-
-      return [`/images/coins/${currency?.address ?? 'token'}.png`, getTokenLogoURL(currency.address)]
+      return [getTokenLogoURL(currency.address)]
     }
     return []
   }, [currency, uriLocations])
 
   if (currency === ETHER) {
-    return <StyledBnbLogo src="/images/coins/bnb.png" size={size} style={style} />
+    return <StyledEthereumLogo src={EthereumLogo} size={size} style={style} />
   }
 
-  if (currency && currency.symbol === 'SAFEMARS') {
-    let logoURI = "";
-
-    if (currency instanceof WrappedTokenInfo) {
-        logoURI = currency.logoURI ?? ""
-    }
-    return <StyledBnbLogo src={logoURI ?? ""} size={size} style={style} />
+  if ((currency ?? {}).symbol === 'SAFEMARS') {
+    return <StyledEthereumLogo src={SafeMarsLogo} size={size} style={style} />
   }
 
-  return (currency as any)?.symbol ? (
-    <CoinLogo size={size} srcs={srcs} alt={`${currency?.symbol ?? 'token'} logo`} style={style} />
-  ) : (
-    <StyledLogo size={size} srcs={srcs} alt={`${currency?.symbol ?? 'token'} logo`} style={style} />
-  )
+  return <StyledLogo size={size} srcs={srcs} alt={`${currency?.symbol ?? 'token'} logo`} style={style} />
 }

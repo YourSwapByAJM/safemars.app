@@ -1,38 +1,87 @@
 import React, { useContext, useMemo } from 'react'
-import { ThemeContext } from 'styled-components'
+import styled, { ThemeContext } from 'styled-components'
 import { Pair } from '@pancakeswap-libs/sdk'
-import { Button, CardBody, Text } from 'pancake-uikit'
 import { Link } from 'react-router-dom'
-import CardNav from 'components/CardNav'
-import Question from 'components/QuestionHelper'
-import FullPositionCard from 'components/PositionCard'
-import { useTokenBalancesWithLoadingIndicator } from 'state/wallet/hooks'
-import { StyledInternalLink } from 'components/Shared'
-import { LightCard } from 'components/Card'
-import { RowBetween } from 'components/Row'
-import { AutoColumn } from 'components/Column'
+import { SwapPoolTabs } from '../../components/NavigationTabs'
 
-import { useActiveWeb3React } from 'hooks'
-import { usePairs } from 'data/Reserves'
-import { toV2LiquidityToken, useTrackedTokenPairs } from 'state/user/hooks'
-import { Dots } from 'components/swap/styleds'
-import useI18n from 'hooks/useI18n'
-import PageHeader from 'components/PageHeader'
-import AppBody from '../AppBody'
+import { useTokenBalancesWithLoadingIndicator } from '../../state/wallet/hooks'
+import { StyledInternalLink, ExternalLink, TYPE, HideSmall } from '../../theme'
+import { Text } from 'rebass'
+import Card from '../../components/Card'
+import { RowBetween, RowFixed } from '../../components/Row'
+import { ButtonPrimary, ButtonSecondary } from '../../components/Button'
+import { AutoColumn } from '../../components/Column'
+
+import { useActiveWeb3React } from '../../hooks'
+import { usePairs } from '../../data/Reserves'
+import { toV2LiquidityToken, useTrackedTokenPairs } from '../../state/user/hooks'
+import { Dots } from '../../components/swap/styleds'
+import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
+
+const PageWrapper = styled(AutoColumn)`
+  max-width: 640px;
+  width: 100%;
+`
+
+const VoteCard = styled(DataCard)`
+  background: radial-gradient(76.02% 75.41% at 1.84% 0%, #dd1818 0%, #000000 100%);
+  overflow: hidden;
+`
+
+const TitleRow = styled(RowBetween)`
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 100%;
+    flex-direction: column-reverse;
+  `};
+`
+
+const ButtonRow = styled(RowFixed)`
+  gap: 8px;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    width: 100%;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  `};
+`
+
+const ResponsiveButtonPrimary = styled(ButtonPrimary)`
+  width: fit-content;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    width: 48%;
+  `};
+`
+
+const ResponsiveButtonSecondary = styled(ButtonSecondary)`
+  width: fit-content;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    width: 48%;
+  `};
+`
+
+const EmptyProposals = styled.div`
+  border: 1px solid ${({ theme }) => theme.text4};
+  padding: 16px 12px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
 
 export default function Pool() {
   const theme = useContext(ThemeContext)
   const { account } = useActiveWeb3React()
-  const TranslateString = useI18n()
 
   // fetch the user's balances of all tracked V2 LP tokens
   const trackedTokenPairs = useTrackedTokenPairs()
   const tokenPairsWithLiquidityTokens = useMemo(
-    () => trackedTokenPairs.map((tokens) => ({ liquidityToken: toV2LiquidityToken(tokens), tokens })),
+    () => trackedTokenPairs.map(tokens => ({ liquidityToken: toV2LiquidityToken(tokens), tokens })),
     [trackedTokenPairs]
   )
-  const liquidityTokens = useMemo(() => tokenPairsWithLiquidityTokens.map((tpwlt) => tpwlt.liquidityToken), [
-    tokenPairsWithLiquidityTokens,
+  const liquidityTokens = useMemo(() => tokenPairsWithLiquidityTokens.map(tpwlt => tpwlt.liquidityToken), [
+    tokenPairsWithLiquidityTokens
   ])
   const [v2PairsBalances, fetchingV2PairBalances] = useTokenBalancesWithLoadingIndicator(
     account ?? undefined,
@@ -50,76 +99,108 @@ export default function Pool() {
 
   const v2Pairs = usePairs(liquidityTokensWithBalances.map(({ tokens }) => tokens))
   const v2IsLoading =
-    fetchingV2PairBalances || v2Pairs?.length < liquidityTokensWithBalances.length || v2Pairs?.some((V2Pair) => !V2Pair)
+    fetchingV2PairBalances || v2Pairs?.length < liquidityTokensWithBalances.length || v2Pairs?.some(V2Pair => !V2Pair)
 
   const allV2PairsWithLiquidity = v2Pairs.map(([, pair]) => pair).filter((v2Pair): v2Pair is Pair => Boolean(v2Pair))
 
   return (
     <>
-      <CardNav activeIndex={1} />
-      <AppBody>
-        <PageHeader
-          title={TranslateString(262, 'Liquidity')}
-          description={TranslateString(1168, 'Add liquidity to receive LP tokens')}
-        >
-          <Button id="join-pool-button" as={Link} to="/add/BNB">
-            {TranslateString(168, 'Add Liquidity')}
-          </Button>
-        </PageHeader>
-        <AutoColumn gap="lg" justify="center">
-          <CardBody>
-            <AutoColumn gap="12px" style={{ width: '100%' }}>
-              <RowBetween padding="0 8px">
-                <Text color={theme.colors.text}>{TranslateString(107, 'Your Liquidity')}</Text>
-                <Question
-                  text={TranslateString(
-                    1170,
-                    'When you add liquidity, you are given pool tokens that represent your share. If you don’t see a pool you joined in this list, try importing a pool below.'
-                  )}
-                />
+      <PageWrapper>
+        <SwapPoolTabs active={'pool'} />
+        <VoteCard>
+          <CardBGImage />
+          <CardNoise />
+          <CardSection>
+            <AutoColumn gap="md">
+              <RowBetween>
+                <TYPE.white fontWeight={600}>Liquidity provider rewards</TYPE.white>
               </RowBetween>
-
-              {!account ? (
-                <LightCard padding="40px">
-                  <Text color="textDisabled" textAlign="center">
-                    {TranslateString(156, 'Connect to a wallet to view your liquidity.')}
-                  </Text>
-                </LightCard>
-              ) : v2IsLoading ? (
-                <LightCard padding="40px">
-                  <Text color="textDisabled" textAlign="center">
-                    <Dots>Loading</Dots>
-                  </Text>
-                </LightCard>
-              ) : allV2PairsWithLiquidity?.length > 0 ? (
-                <>
-                  {allV2PairsWithLiquidity.map((v2Pair) => (
-                    <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
-                  ))}
-                </>
-              ) : (
-                <LightCard padding="40px">
-                  <Text color="textDisabled" textAlign="center">
-                    {TranslateString(104, 'No liquidity found.')}
-                  </Text>
-                </LightCard>
-              )}
-
-              <div>
-                <Text fontSize="14px" style={{ padding: '.5rem 0 .5rem 0' }}>
-                  {TranslateString(106, "Don't see a pool you joined?")}{' '}
-                  <StyledInternalLink id="import-pool-link" to="/find">
-                    {TranslateString(108, 'Import it.')}
-                  </StyledInternalLink>
-                </Text>
-                <Text fontSize="14px" style={{ padding: '.5rem 0 .5rem 0' }}>
-                  {TranslateString(1172, 'Or, if you staked your LP tokens in a farm, unstake them to see them here.')}
-                </Text>
-              </div>
+              <RowBetween>
+                <TYPE.white fontSize={14}>
+                  {`Liquidity providers earn a 0.3% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.`}
+                </TYPE.white>
+              </RowBetween>
+              <ExternalLink
+                style={{ color: 'white', textDecoration: 'underline' }}
+                target="_blank"
+                href="https://uniswap.org/docs/v2/core-concepts/pools/"
+              >
+                <TYPE.white fontSize={14}>Read more about providing liquidity</TYPE.white>
+              </ExternalLink>
             </AutoColumn>
-          </CardBody>
+          </CardSection>
+          <CardBGImage />
+          <CardNoise />
+        </VoteCard>
+
+        <AutoColumn gap="lg" justify="center">
+          <AutoColumn gap="lg" style={{ width: '100%' }}>
+            <TitleRow style={{ marginTop: '1rem' }} padding={'0'}>
+              <HideSmall>
+                <TYPE.mediumHeader style={{ marginTop: '0.5rem', justifySelf: 'flex-start' }}>
+                  Your liquidity
+                </TYPE.mediumHeader>
+              </HideSmall>
+              <ButtonRow>
+                <ResponsiveButtonSecondary as={Link} padding="6px 8px" to="/create/ETH">
+                  Create a pair
+                </ResponsiveButtonSecondary>
+                <ResponsiveButtonPrimary
+                  id="join-pool-button"
+                  as={Link}
+                  padding="6px 8px"
+                  borderRadius="12px"
+                  to="/add/ETH"
+                >
+                  <Text fontWeight={500} fontSize={16}>
+                    Add Liquidity
+                  </Text>
+                </ResponsiveButtonPrimary>
+              </ButtonRow>
+            </TitleRow>
+
+            {!account ? (
+              <Card padding="40px">
+                <TYPE.body color={theme.text3} textAlign="center">
+                  Connect to a wallet to view your liquidity.
+                </TYPE.body>
+              </Card>
+            ) : v2IsLoading ? (
+              <EmptyProposals>
+                <TYPE.body color={theme.text3} textAlign="center">
+                  <Dots>Loading</Dots>
+                </TYPE.body>
+              </EmptyProposals>
+            ) : allV2PairsWithLiquidity?.length > 0 ? (
+              <>
+                <ButtonSecondary>
+                  <RowBetween>
+                    <ExternalLink href={'https://uniswap.info/account/' + account}>
+                      Account analytics and accrued fees
+                    </ExternalLink>
+                    <span> ↗</span>
+                  </RowBetween>
+                </ButtonSecondary>
+              </>
+            ) : (
+              <EmptyProposals>
+                <TYPE.body color={theme.text3} textAlign="center">
+                  No liquidity found.
+                </TYPE.body>
+              </EmptyProposals>
+            )}
+
+            <AutoColumn justify={'center'} gap="md">
+              <Text textAlign="center" fontSize={14} style={{ padding: '.5rem 0 .5rem 0' }}>
+                {"Don't see a pool you joined?"}{' '}
+                <StyledInternalLink id="import-pool-link" to={'/find'}>
+                  {'Import it.'}
+                </StyledInternalLink>
+              </Text>
+            </AutoColumn>
+          </AutoColumn>
         </AutoColumn>
-      </AppBody>
+      </PageWrapper>
     </>
   )
 }

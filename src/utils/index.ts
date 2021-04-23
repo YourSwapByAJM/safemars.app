@@ -4,8 +4,8 @@ import { AddressZero } from '@ethersproject/constants'
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
 import { abi as IUniswapV2Router02ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
-import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, ETHER } from '@pancakeswap-libs/sdk'
 import { ROUTER_ADDRESS } from '../constants'
+import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, ETHER } from '@pancakeswap-libs/sdk'
 import { TokenAddressMap } from '../state/lists/hooks'
 
 // returns the checksummed address if the address is valid, otherwise returns false
@@ -22,7 +22,7 @@ const BSCSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   97: 'testnet.'
 }
 
-export function getBscScanLink(chainId: ChainId, data: string, type: 'transaction' | 'token' | 'address'): string {
+export function getBscScanLink(chainId: ChainId, data: string, type: 'transaction' | 'token' | 'address' | 'block'): string {
   const prefix = `https://${BSCSCAN_PREFIXES[chainId] || BSCSCAN_PREFIXES[ChainId.MAINNET]}bscscan.com`
 
   switch (type) {
@@ -31,6 +31,9 @@ export function getBscScanLink(chainId: ChainId, data: string, type: 'transactio
     }
     case 'token': {
       return `${prefix}/token/${data}`
+    }
+    case 'block': {
+      return `${prefix}/block/${data}`
     }
     case 'address':
     default: {
@@ -55,7 +58,7 @@ export function calculateGasMargin(value: BigNumber): BigNumber {
 
 // converts a basis points value to a sdk percent
 export function basisPointsToPercent(num: number): Percent {
-  return new Percent(JSBI.BigInt(Math.floor(num)), JSBI.BigInt(10000))
+  return new Percent(JSBI.BigInt(num), JSBI.BigInt(10000))
 }
 
 export function calculateSlippageAmount(value: CurrencyAmount, slippage: number): [JSBI, JSBI] {

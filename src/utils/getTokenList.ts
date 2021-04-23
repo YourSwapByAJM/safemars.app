@@ -5,10 +5,6 @@ import contenthashToUri from './contenthashToUri'
 import { parseENSAddress } from './parseENSAddress'
 import uriToHttp from './uriToHttp'
 
-// bakeryswap defaultTokenJson
-import { DEFAULT_TOKEN_LIST_URL } from '../constants/lists'
-import defaultTokenJson from '../constants/token/pancakeswap.json'
-
 const tokenListValidator = new Ajv({ allErrors: true }).compile(schema)
 
 /**
@@ -20,25 +16,21 @@ export default async function getTokenList(
   listUrl: string,
   resolveENSContentHash: (ensName: string) => Promise<string>
 ): Promise<TokenList> {
-  if (listUrl === DEFAULT_TOKEN_LIST_URL) {
-    return defaultTokenJson
-  }
   const parsedENS = parseENSAddress(listUrl)
-
   let urls: string[]
   if (parsedENS) {
     let contentHashUri
     try {
       contentHashUri = await resolveENSContentHash(parsedENS.ensName)
     } catch (error) {
-      console.error(`Failed to resolve ENS name: ${parsedENS.ensName}`, error)
+      console.debug(`Failed to resolve ENS name: ${parsedENS.ensName}`, error)
       throw new Error(`Failed to resolve ENS name: ${parsedENS.ensName}`)
     }
     let translatedUri
     try {
       translatedUri = contenthashToUri(contentHashUri)
     } catch (error) {
-      console.error('Failed to translate contenthash to URI', contentHashUri)
+      console.debug('Failed to translate contenthash to URI', contentHashUri)
       throw new Error(`Failed to translate contenthash to URI: ${contentHashUri}`)
     }
     urls = uriToHttp(`${translatedUri}${parsedENS.ensPath ?? ''}`)
@@ -52,15 +44,13 @@ export default async function getTokenList(
     try {
       response = await fetch(url)
     } catch (error) {
-      console.error('Failed to fetch list', listUrl, error)
+      console.debug('Failed to fetch list', listUrl, error)
       if (isLast) throw new Error(`Failed to download list ${listUrl}`)
-      // eslint-disable-next-line no-continue
       continue
     }
 
     if (!response.ok) {
       if (isLast) throw new Error(`Failed to download list ${listUrl}`)
-      // eslint-disable-next-line no-continue
       continue
     }
 

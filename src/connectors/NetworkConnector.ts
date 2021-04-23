@@ -30,21 +30,14 @@ interface BatchItem {
 
 class MiniRpcProvider implements AsyncSendable {
   public readonly isMetaMask: false = false
-
   public readonly chainId: number
-
   public readonly url: string
-
   public readonly host: string
-
   public readonly path: string
-
   public readonly batchWaitTimeMs: number
 
   private nextId = 1
-
   private batchTimeoutId: ReturnType<typeof setTimeout> | null = null
-
   private batch: BatchItem[] = []
 
   constructor(chainId: number, url: string, batchWaitTimeMs?: number) {
@@ -58,8 +51,8 @@ class MiniRpcProvider implements AsyncSendable {
   }
 
   public readonly clearBatch = async () => {
-    console.info('Clearing batch', this.batch)
-    const { batch } = this
+    console.debug('Clearing batch', this.batch)
+    const batch = this.batch
     this.batch = []
     this.batchTimeoutId = null
     let response: Response
@@ -67,7 +60,7 @@ class MiniRpcProvider implements AsyncSendable {
       response = await fetch(this.url, {
         method: 'POST',
         headers: { 'content-type': 'application/json', accept: 'application/json' },
-        body: JSON.stringify(batch.map((item) => item.request)),
+        body: JSON.stringify(batch.map(item => item.request))
       })
     } catch (error) {
       batch.forEach(({ reject }) => reject(new Error('Failed to send batch call')))
@@ -90,12 +83,11 @@ class MiniRpcProvider implements AsyncSendable {
       memo[current.request.id] = current
       return memo
     }, {})
-    // eslint-disable-next-line no-restricted-syntax
     for (const result of json) {
       const {
         resolve,
         reject,
-        request: { method },
+        request: { method }
       } = byKey[result.id]
       if (resolve && reject) {
         if ('error' in result) {
@@ -110,17 +102,17 @@ class MiniRpcProvider implements AsyncSendable {
   }
 
   public readonly sendAsync = (
-    request: { jsonrpc: '2.0'; id: number | string | null; method: string; params?: any },
+    request: { jsonrpc: '2.0'; id: number | string | null; method: string; params?: unknown[] | object },
     callback: (error: any, response: any) => void
   ): void => {
     this.request(request.method, request.params)
-      .then((result) => callback(null, { jsonrpc: '2.0', id: request.id, result }))
-      .catch((error) => callback(error, null))
+      .then(result => callback(null, { jsonrpc: '2.0', id: request.id, result }))
+      .catch(error => callback(error, null))
   }
 
   public readonly request = async (
     method: string | { method: string; params: unknown[] },
-    params?: any
+    params?: unknown[] | object
   ): Promise<unknown> => {
     if (typeof method !== 'string') {
       return this.request(method.method, method.params)
@@ -134,10 +126,10 @@ class MiniRpcProvider implements AsyncSendable {
           jsonrpc: '2.0',
           id: this.nextId++,
           method,
-          params,
+          params
         },
         resolve,
-        reject,
+        reject
       })
     })
     this.batchTimeoutId = this.batchTimeoutId ?? setTimeout(this.clearBatch, this.batchWaitTimeMs)
@@ -147,7 +139,6 @@ class MiniRpcProvider implements AsyncSendable {
 
 export class NetworkConnector extends AbstractConnector {
   private readonly providers: { [chainId: number]: MiniRpcProvider }
-
   private currentChainId: number
 
   constructor({ urls, defaultChainId }: NetworkConnectorArguments) {
@@ -182,8 +173,6 @@ export class NetworkConnector extends AbstractConnector {
   }
 
   public deactivate() {
-    return null
+    return
   }
 }
-
-export default NetworkConnector

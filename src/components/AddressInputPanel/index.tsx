@@ -1,20 +1,17 @@
-import React, { useCallback } from 'react'
-import styled from 'styled-components'
-import { Text } from 'pancake-uikit'
-import useI18n from 'hooks/useI18n'
+import React, { useContext, useCallback } from 'react'
+import styled, { ThemeContext } from 'styled-components'
 import useENS from '../../hooks/useENS'
 import { useActiveWeb3React } from '../../hooks'
-import { ExternalLink } from '../Shared'
+import { ExternalLink, TYPE } from '../../theme'
 import { AutoColumn } from '../Column'
 import { RowBetween } from '../Row'
 import { getBscScanLink } from '../../utils'
 
 const InputPanel = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
+  ${({ theme }) => theme.flexColumnNoWrap}
   position: relative;
   border-radius: 1.25rem;
-  background-color: ${({ theme }) => theme.colors.invertedContrast};
+  background-color: ${({ theme }) => theme.bg1};
   z-index: 1;
   width: 100%;
 `
@@ -24,10 +21,10 @@ const ContainerRow = styled.div<{ error: boolean }>`
   justify-content: center;
   align-items: center;
   border-radius: 1.25rem;
-  border: 1px solid ${({ error, theme }) => (error ? theme.colors.failure : theme.colors.invertedContrast)};
+  border: 1px solid ${({ error, theme }) => (error ? theme.red1 : theme.bg2)};
   transition: border-color 300ms ${({ error }) => (error ? 'step-end' : 'step-start')},
     color 500ms ${({ error }) => (error ? 'step-end' : 'step-start')};
-  background-color: ${({ theme }) => theme.colors.invertedContrast};
+  background-color: ${({ theme }) => theme.bg1};
 `
 
 const InputContainer = styled.div`
@@ -41,15 +38,15 @@ const Input = styled.input<{ error?: boolean }>`
   border: none;
   flex: 1 1 auto;
   width: 0;
-  background-color: ${({ theme }) => theme.colors.invertedContrast};
+  background-color: ${({ theme }) => theme.bg1};
   transition: color 300ms ${({ error }) => (error ? 'step-end' : 'step-start')};
-  color: ${({ error, theme }) => (error ? theme.colors.failure : theme.colors.primary)};
+  color: ${({ error, theme }) => (error ? theme.red1 : theme.primary1)};
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: 500;
   width: 100%;
   ::placeholder {
-    color: ${({ theme }) => theme.colors.textDisabled};
+    color: ${({ theme }) => theme.text4};
   }
   padding: 0px;
   -webkit-appearance: textfield;
@@ -64,14 +61,14 @@ const Input = styled.input<{ error?: boolean }>`
   }
 
   ::placeholder {
-    color: ${({ theme }) => theme.colors.textDisabled};
+    color: ${({ theme }) => theme.text4};
   }
 `
 
 export default function AddressInputPanel({
   id,
   value,
-  onChange,
+  onChange
 }: {
   id?: string
   // the typed string value
@@ -80,11 +77,12 @@ export default function AddressInputPanel({
   onChange: (value: string) => void
 }) {
   const { chainId } = useActiveWeb3React()
-  const TranslateString = useI18n()
+  const theme = useContext(ThemeContext)
+
   const { address, loading, name } = useENS(value)
 
   const handleInput = useCallback(
-    (event) => {
+    event => {
       const input = event.target.value
       const withoutSpaces = input.replace(/\s+/g, '')
       onChange(withoutSpaces)
@@ -100,12 +98,12 @@ export default function AddressInputPanel({
         <InputContainer>
           <AutoColumn gap="md">
             <RowBetween>
-              <Text color="textSubtle" fontWeight={500} fontSize="14px">
-                {TranslateString(1138, 'Recipient')}
-              </Text>
+              <TYPE.black color={theme.text2} fontWeight={500} fontSize={14}>
+                Recipient
+              </TYPE.black>
               {address && chainId && (
                 <ExternalLink href={getBscScanLink(chainId, name ?? address, 'address')} style={{ fontSize: '14px' }}>
-                  {TranslateString(116, '(View on BscScan)')}
+                  (View on Bscscan)
                 </ExternalLink>
               )}
             </RowBetween>
@@ -116,7 +114,7 @@ export default function AddressInputPanel({
               autoCorrect="off"
               autoCapitalize="off"
               spellCheck="false"
-              placeholder={TranslateString(1140, 'Wallet Address or ENS name')}
+              placeholder="Wallet Address or ENS name"
               error={error}
               pattern="^(0x[a-fA-F0-9]{40})$"
               onChange={handleInput}

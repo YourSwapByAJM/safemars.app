@@ -1,6 +1,7 @@
 {
-  "short_name": "PancakeSwap",
-  "name": "PancakeSwap",
+  "background_color": "#fff",
+  "display": "standalone",
+  "homepage_url": "https://swap.safeearthcrypto.com",
   "icons": [
     {
       "src": "./images/192x192_App_Icon.png",
@@ -16,7 +17,8 @@
     }
   ],
   "orientation": "portrait",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "name": "EarthSwap",
+  "short_name": "EarthSwap",
+  "start_url": ".",
+  "theme_color": "#66cc66"
 }

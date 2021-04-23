@@ -21,16 +21,19 @@ export const Popup = styled.div`
   display: inline-block;
   width: 100%;
   padding: 1em;
-  background-color: ${({ theme }) => theme.colors.invertedContrast};
+  background-color: ${({ theme }) => theme.bg1};
   position: relative;
   border-radius: 10px;
   padding: 20px;
   padding-right: 35px;
   overflow: hidden;
 
-  ${({ theme }) => theme.mediaQueries.sm} {
+  ${({ theme }) => theme.mediaWidth.upToSmall`
     min-width: 290px;
-  }
+    &:not(:last-of-type) {
+      margin-right: 20px;
+    }
+  `}
 `
 const Fader = styled.div`
   position: absolute;
@@ -38,7 +41,7 @@ const Fader = styled.div`
   left: 0px;
   width: 100%;
   height: 2px;
-  background-color: ${({ theme }) => theme.colors.tertiary};
+  background-color: ${({ theme }) => theme.bg3};
 `
 
 const AnimatedFader = animated(Fader)
@@ -89,7 +92,7 @@ export default function PopupItem({
 
   return (
     <Popup>
-      <StyledClose color={theme.colors.textSubtle} onClick={removeThisPopup} />
+      <StyledClose color={theme.text2} onClick={removeThisPopup} />
       {popupContent}
       {removeAfterMs !== null ? <AnimatedFader style={faderStyle} /> : null}
     </Popup>

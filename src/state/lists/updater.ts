@@ -1,27 +1,34 @@
+import { useAllLists } from 'state/lists/hooks'
 import { getVersionUpgrade, minVersionBump, VersionUpgrade } from '@uniswap/token-lists'
 import { useCallback, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useActiveWeb3React } from '../../hooks'
 import { useFetchListCallback } from '../../hooks/useFetchListCallback'
 import useInterval from '../../hooks/useInterval'
 import useIsWindowVisible from '../../hooks/useIsWindowVisible'
-import { addPopup } from '../application/actions'
-import { AppDispatch, AppState } from '../index'
+import { AppDispatch } from '../index'
 import { acceptListUpdate } from './actions'
+import { useActiveListUrls } from './hooks'
+import { useAllInactiveTokens } from 'hooks/Tokens'
+import { UNSUPPORTED_LIST_URLS } from 'constants/lists'
 
 export default function Updater(): null {
   const { library } = useActiveWeb3React()
   const dispatch = useDispatch<AppDispatch>()
-  const lists = useSelector<AppState, AppState['lists']['byUrl']>((state) => state.lists.byUrl)
-
   const isWindowVisible = useIsWindowVisible()
 
-  const fetchList = useFetchListCallback()
+  // get all loaded lists, and the active urls
+  const lists = useAllLists()
+  const activeListUrls = useActiveListUrls()
 
+  // initiate loading
+  useAllInactiveTokens()
+
+  const fetchList = useFetchListCallback()
   const fetchAllListsCallback = useCallback(() => {
     if (!isWindowVisible) return
-    Object.keys(lists).forEach((url) =>
-      fetchList(url).catch((error) => console.error('interval list fetching error', error))
+    Object.keys(lists).forEach(url =>
+      fetchList(url).catch(error => console.debug('interval list fetching error', error))
     )
   }, [fetchList, isWindowVisible, lists])
 
@@ -30,18 +37,27 @@ export default function Updater(): null {
 
   // whenever a list is not loaded and not loading, try again to load it
   useEffect(() => {
-    Object.keys(lists).forEach((listUrl) => {
+    Object.keys(lists).forEach(listUrl => {
       const list = lists[listUrl]
-
       if (!list.current && !list.loadingRequestId && !list.error) {
-        fetchList(listUrl).catch((error) => console.error('list added fetching error', error))
+        fetchList(listUrl).catch(error => console.debug('list added fetching error', error))
+      }
+    })
+  }, [dispatch, fetchList, library, lists])
+
+  // if any lists from unsupported lists are loaded, check them too (in case new updates since last visit)
+  useEffect(() => {
+    Object.keys(UNSUPPORTED_LIST_URLS).forEach(listUrl => {
+      const list = lists[listUrl]
+      if (!list || (!list.current && !list.loadingRequestId && !list.error)) {
+        fetchList(listUrl).catch(error => console.debug('list added fetching error', error))
       }
     })
   }, [dispatch, fetchList, library, lists])
 
   // automatically update lists if versions are minor/patch
   useEffect(() => {
-    Object.keys(lists).forEach((listUrl) => {
+    Object.keys(lists).forEach(listUrl => {
       const list = lists[listUrl]
       if (list.current && list.pendingUpdate) {
         const bump = getVersionUpgrade(list.current.version, list.pendingUpdate.version)
@@ -54,19 +70,6 @@ export default function Updater(): null {
             // automatically update minor/patch as long as bump matches the min update
             if (bump >= min) {
               dispatch(acceptListUpdate(listUrl))
-              dispatch(
-                addPopup({
-                  key: listUrl,
-                  content: {
-                    listUpdate: {
-                      listUrl,
-                      oldList: list.current,
-                      newList: list.pendingUpdate,
-                      auto: true,
-                    },
-                  },
-                })
-              )
             } else {
               console.error(
                 `List at url ${listUrl} could not automatically update because the version bump was only PATCH/MINOR while the update had breaking changes and should have been MAJOR`
@@ -74,25 +77,13 @@ export default function Updater(): null {
             }
             break
 
+          // update any active or inactive lists
           case VersionUpgrade.MAJOR:
-            dispatch(
-              addPopup({
-                key: listUrl,
-                content: {
-                  listUpdate: {
-                    listUrl,
-                    auto: false,
-                    oldList: list.current,
-                    newList: list.pendingUpdate,
-                  },
-                },
-                removeAfterMs: null,
-              })
-            )
+            dispatch(acceptListUpdate(listUrl))
         }
       }
     })
-  }, [dispatch, lists])
+  }, [dispatch, lists, activeListUrls])
 
   return null
 }

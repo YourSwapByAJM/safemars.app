@@ -1,22 +1,22 @@
 import { Placement } from '@popperjs/core'
-import { transparentize, opacify } from 'polished'
+import { transparentize } from 'polished'
 import React, { useCallback, useState } from 'react'
 import { usePopper } from 'react-popper'
 import styled from 'styled-components'
-import Portal from '@reach/portal'
 import useInterval from '../../hooks/useInterval'
+import Portal from '@reach/portal'
 
 const PopoverContainer = styled.div<{ show: boolean }>`
   z-index: 9999;
 
-  visibility: ${(props) => (props.show ? 'visible' : 'hidden')};
-  opacity: ${(props) => (props.show ? 1 : 0)};
+  visibility: ${props => (props.show ? 'visible' : 'hidden')};
+  opacity: ${props => (props.show ? 1 : 0)};
   transition: visibility 150ms linear, opacity 150ms linear;
 
-  background: ${({ theme }) => opacify(1, theme.colors.invertedContrast)};
-  border: 1px solid ${({ theme }) => theme.colors.tertiary};
-  box-shadow: 0 2px 4px 0 ${({theme}) => transparentize(0.9, theme.colors.primary)};
-  color: ${({ theme }) => theme.colors.textSubtle};
+  background: ${({ theme }) => theme.bg2};
+  border: 1px solid ${({ theme }) => theme.bg3};
+  box-shadow: 0 4px 8px 0 ${({ theme }) => transparentize(0.9, theme.shadow1)};
+  color: ${({ theme }) => theme.text2};
   border-radius: 8px;
 `
 
@@ -36,9 +36,9 @@ const Arrow = styled.div`
     z-index: 9998;
 
     content: '';
-    border: 1px solid ${({ theme }) => theme.colors.tertiary};
+    border: 1px solid ${({ theme }) => theme.bg3};
     transform: rotate(45deg);
-    background: ${({ theme }) => theme.colors.invertedContrast};
+    background: ${({ theme }) => theme.bg2};
   }
 
   &.arrow-top {
@@ -91,13 +91,11 @@ export default function Popover({ content, show, children, placement = 'auto' }:
     strategy: 'fixed',
     modifiers: [
       { name: 'offset', options: { offset: [8, 8] } },
-      { name: 'arrow', options: { element: arrowElement } },
-    ],
+      { name: 'arrow', options: { element: arrowElement } }
+    ]
   })
   const updateCallback = useCallback(() => {
-    if (update) {
-      update()
-    }
+    update && update()
   }, [update])
   useInterval(updateCallback, show ? 100 : null)
 

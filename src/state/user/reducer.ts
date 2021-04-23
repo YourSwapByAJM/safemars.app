@@ -1,5 +1,5 @@
-import { createReducer } from '@reduxjs/toolkit'
 import { INITIAL_ALLOWED_SLIPPAGE, DEFAULT_DEADLINE_FROM_NOW } from '../../constants'
+import { createReducer } from '@reduxjs/toolkit'
 import { updateVersion } from '../global/actions'
 import {
   addSerializedPair,
@@ -13,8 +13,8 @@ import {
   updateUserExpertMode,
   updateUserSlippageTolerance,
   updateUserDeadline,
-  muteAudio,
-  unmuteAudio
+  toggleURLWarning,
+  updateUserSingleHopOnly
 } from './actions'
 
 const currentTimestamp = () => new Date().getTime()
@@ -27,6 +27,8 @@ export interface UserState {
   matchesDarkMode: boolean // whether the dark mode media query matches
 
   userExpertMode: boolean
+
+  userSingleHopOnly: boolean // only allow swaps on direct pairs
 
   // user defined slippage tolerance in bips, used in all txns
   userSlippageTolerance: number
@@ -48,8 +50,7 @@ export interface UserState {
   }
 
   timestamp: number
-
-  audioPlay: boolean
+  URLWarningVisible: boolean
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -60,12 +61,13 @@ export const initialState: UserState = {
   userDarkMode: null,
   matchesDarkMode: false,
   userExpertMode: false,
+  userSingleHopOnly: false,
   userSlippageTolerance: INITIAL_ALLOWED_SLIPPAGE,
   userDeadline: DEFAULT_DEADLINE_FROM_NOW,
   tokens: {},
   pairs: {},
   timestamp: currentTimestamp(),
-  audioPlay: true
+  URLWarningVisible: true
 }
 
 export default createReducer(initialState, builder =>
@@ -105,12 +107,21 @@ export default createReducer(initialState, builder =>
       state.userDeadline = action.payload.userDeadline
       state.timestamp = currentTimestamp()
     })
+    .addCase(updateUserSingleHopOnly, (state, action) => {
+      state.userSingleHopOnly = action.payload.userSingleHopOnly
+    })
     .addCase(addSerializedToken, (state, { payload: { serializedToken } }) => {
+      if (!state.tokens) {
+        state.tokens = {}
+      }
       state.tokens[serializedToken.chainId] = state.tokens[serializedToken.chainId] || {}
       state.tokens[serializedToken.chainId][serializedToken.address] = serializedToken
       state.timestamp = currentTimestamp()
     })
     .addCase(removeSerializedToken, (state, { payload: { address, chainId } }) => {
+      if (!state.tokens) {
+        state.tokens = {}
+      }
       state.tokens[chainId] = state.tokens[chainId] || {}
       delete state.tokens[chainId][address]
       state.timestamp = currentTimestamp()
@@ -120,7 +131,7 @@ export default createReducer(initialState, builder =>
         serializedPair.token0.chainId === serializedPair.token1.chainId &&
         serializedPair.token0.address !== serializedPair.token1.address
       ) {
-        const {chainId} = serializedPair.token0
+        const chainId = serializedPair.token0.chainId
         state.pairs[chainId] = state.pairs[chainId] || {}
         state.pairs[chainId][pairKey(serializedPair.token0.address, serializedPair.token1.address)] = serializedPair
       }
@@ -134,10 +145,7 @@ export default createReducer(initialState, builder =>
       }
       state.timestamp = currentTimestamp()
     })
-    .addCase(muteAudio, state => {
-      state.audioPlay = false
-    })
-    .addCase(unmuteAudio, state => {
-      state.audioPlay = true
+    .addCase(toggleURLWarning, state => {
+      state.URLWarningVisible = !state.URLWarningVisible
     })
 )

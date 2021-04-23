@@ -12,5 +12,3 @@ export function useTotalSupply(token?: Token): TokenAmount | undefined {
 
   return token && totalSupply ? new TokenAmount(token, totalSupply.toString()) : undefined
 }
-
-export default useTotalSupply

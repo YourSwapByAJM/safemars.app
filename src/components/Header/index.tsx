@@ -327,6 +327,9 @@ export default function Header() {
           >
             {t('pool')}
           </StyledNavLink>
+            <StyledNavLink id={`stake-nav-link`} to={'/stake'}>
+              {t('Stake')}
+            </StyledNavLink>
           <StyledExternalLink id={`stake-nav-link`} href="https://dex.guru/token/0x3ad9594151886ce8538c1ff615efa2385a8c3a88-bsc">
             Charts <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>

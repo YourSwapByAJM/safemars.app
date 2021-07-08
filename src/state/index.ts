@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { save, load } from 'redux-localstorage-simple'
+
 
 import application from './application/reducer'
 import { updateVersion } from './global/actions'

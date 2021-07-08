@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
-import { JSBI, Percent, SwapParameters, Trade, TradeType } from '@pancakeswap-libs/sdk'
+import { JSBI, Percent, SwapParameters, Trade, TradeType } from '@pancakeswap-libs/sdk-v2'
 import { Router } from '@pancakeswap-libs/sdk-v2'
 import { useMemo } from 'react'
 import { BIPS_BASE, INITIAL_ALLOWED_SLIPPAGE } from '../constants'

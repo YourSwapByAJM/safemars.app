@@ -1,5 +1,5 @@
 import React, { CSSProperties } from 'react'
-import { Token } from '@pancakeswap-libs/sdk'
+import { Token } from '@pancakeswap-libs/sdk-v2'
 import { AutoRow, RowFixed } from 'components/Row'
 import { AutoColumn } from 'components/Column'
 import CurrencyLogo from 'components/CurrencyLogo'

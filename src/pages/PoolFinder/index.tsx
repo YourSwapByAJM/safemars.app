@@ -1,4 +1,4 @@
-import { Currency, ETHER, JSBI, TokenAmount } from '@pancakeswap-libs/sdk'
+import { Currency, ETHER, JSBI, TokenAmount } from '@pancakeswap-libs/sdk-v2'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Plus } from 'react-feather'
 import { Text } from 'rebass'

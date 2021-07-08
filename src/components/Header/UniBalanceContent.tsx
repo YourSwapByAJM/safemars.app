@@ -1,4 +1,4 @@
-import { ChainId, TokenAmount } from '@pancakeswap-libs/sdk'
+import { ChainId, TokenAmount } from '@pancakeswap-libs/sdk-v2'
 import BigNumber from 'bignumber.js';
 import React from 'react'
 import { X } from 'react-feather'

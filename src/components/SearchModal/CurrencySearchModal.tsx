@@ -1,4 +1,4 @@
-import { Currency, Token } from '@pancakeswap-libs/sdk'
+import { Currency, Token } from '@pancakeswap-libs/sdk-v2'
 import React, { useCallback, useEffect, useState } from 'react'
 import useLast from '../../hooks/useLast'
 import Modal from '../Modal'

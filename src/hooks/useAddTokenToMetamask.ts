@@ -1,6 +1,6 @@
 import { getTokenLogoURL } from './../components/CurrencyLogo/index'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
-import { Currency, Token } from '@pancakeswap-libs/sdk'
+import { Currency, Token } from '@pancakeswap-libs/sdk-v2'
 import { useCallback, useState } from 'react'
 import { useActiveWeb3React } from 'hooks'
 

@@ -1,4 +1,4 @@
-import { ChainId, TokenAmount, Token } from '@pancakeswap-libs/sdk'
+import { ChainId, TokenAmount, Token } from '@pancakeswap-libs/sdk-v2'
 import React, { useState } from 'react'
 import { Text } from 'rebass'
 import { NavLink } from 'react-router-dom'

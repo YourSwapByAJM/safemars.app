@@ -9,7 +9,7 @@ import { AutoColumn } from 'components/Column'
 import CurrencyLogo from 'components/CurrencyLogo'
 import { useActiveWeb3React } from 'hooks'
 import { getBscScanLink } from 'utils'
-import { Currency, Token } from '@pancakeswap-libs/sdk'
+import { Currency, Token } from '@pancakeswap-libs/sdk-v2'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
 import { useUnsupportedTokens } from '../../hooks/Tokens'
 

@@ -2,7 +2,7 @@ import { useState, useLayoutEffect } from 'react'
 import { shade } from 'polished'
 import Vibrant from 'node-vibrant'
 import { hex } from 'wcag-contrast'
-import { Token } from '@pancakeswap-libs/sdk'
+import { Token } from '@pancakeswap-libs/sdk-v2'
 import uriToHttp from 'utils/uriToHttp'
 
 async function getColorFromToken(token: Token): Promise<string | null> {

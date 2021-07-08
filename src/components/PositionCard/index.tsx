@@ -1,4 +1,4 @@
-import { JSBI, Pair, Percent, TokenAmount } from '@pancakeswap-libs/sdk'
+import { JSBI, Pair, Percent, TokenAmount } from '@pancakeswap-libs/sdk-v2'
 import { darken } from 'polished'
 import React, { useState } from 'react'
 import { ChevronDown, ChevronUp } from 'react-feather'

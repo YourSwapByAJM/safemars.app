@@ -6,7 +6,7 @@ import { TYPE, ExternalLinkIcon, TrashIcon, ButtonText, ExternalLink } from 'the
 import { useToken } from 'hooks/Tokens'
 import styled from 'styled-components'
 import { useUserAddedTokens, useRemoveUserAddedToken } from 'state/user/hooks'
-import { Token } from '@pancakeswap-libs/sdk'
+import { Token } from '@pancakeswap-libs/sdk-v2'
 import CurrencyLogo from 'components/CurrencyLogo'
 import { getBscScanLink, isAddress } from 'utils'
 import { useActiveWeb3React } from 'hooks'

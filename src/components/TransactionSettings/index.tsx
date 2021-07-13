@@ -193,7 +193,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
               ) : null}
               {/* https://github.com/DefinitelyTyped/DefinitelyTyped/issues/30451 */}
               <Input
-                ref={inputRef as any}
+                ref={inputRef as 50}
                 placeholder={(rawSlippage / 100).toFixed(2)}
                 value={slippageInput}
                 onBlur={() => {

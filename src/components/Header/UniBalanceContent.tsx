@@ -9,7 +9,6 @@ import { useTotalSupply } from '../../data/TotalSupply'
 import { useActiveWeb3React } from '../../hooks'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { ExternalLink, TYPE, UniTokenAnimated } from '../../theme'
-import usePriceData from '../../utils/usePriceData'
 import { AutoColumn } from '../Column'
 import { RowBetween } from '../Row'
 import { Break, CardBGImage, CardNoise, CardSection, DataCard } from '../earn/styled'
@@ -42,14 +41,13 @@ export default function UniBalanceContent({ setShowUniBalanceModal }: { setShowU
   const safemars = chainId ? SAFEMARS[chainId] : undefined
 
   const totalSupply: TokenAmount | undefined = useTotalSupply(safemars)
-  const priceData = usePriceData()
-  const safemarsPrice = priceData && safemars ?new BigNumber(priceData.data[safemars.address].price) : undefined
+ 
+  
 
   const safemarsTotal = useTokenBalance(account ?? undefined, safemars)
   const safemarsDecimalTotal = safemarsTotal ? new BigNumber(safemarsTotal.toExact()) : undefined
 
-  const safemarsBalance = safemarsPrice && safemarsDecimalTotal
-  ? safemarsPrice.multipliedBy(safemarsDecimalTotal)
+  const safemarsBalance = safemarsDecimalTotal
   : undefined;
 
   return (
@@ -59,7 +57,7 @@ export default function UniBalanceContent({ setShowUniBalanceModal }: { setShowU
         <CardNoise />
         <CardSection gap="md">
           <RowBetween>
-            <TYPE.white color="white">Your SAFEMARS Breakdown</TYPE.white>
+            <TYPE.white color="white">Your Hamster Breakdown</TYPE.white>
             <StyledClose stroke="white" onClick={() => setShowUniBalanceModal(false)} />
           </RowBetween>
         </CardSection>
@@ -73,28 +71,20 @@ export default function UniBalanceContent({ setShowUniBalanceModal }: { setShowU
                   {safemarsTotal?.toFixed(2, { groupSeparator: ',' })}
                 </TYPE.white>
               </AutoColumn>
-              <AutoColumn gap="md">
-                <RowBetween>
-                  <TYPE.white color="white">Balance:</TYPE.white>
-                  <TYPE.white color="white">${safemarsBalance?.toFormat(2)}</TYPE.white>
-                </RowBetween>
-              </AutoColumn>
+              
             </CardSection>
             <Break />
           </>
         )}
         <CardSection gap="sm">
           <AutoColumn gap="md">
-            <RowBetween>
-              <TYPE.white color="white">SAFEMARS price:</TYPE.white>
-              <TYPE.white color="white">${safemarsPrice?.toFixed(11) ?? '-'}</TYPE.white>
-            </RowBetween>
+           
             <RowBetween>
               <TYPE.white color="white">Total Supply</TYPE.white>
               <TYPE.white color="white">{totalSupply?.toFixed(0, { groupSeparator: ',' })}</TYPE.white>
             </RowBetween>
             {safemars && safemars.chainId === ChainId.MAINNET ? (
-              <ExternalLink href="https://pancakeswap.info/pair/0x2d3a6b1621b0ff8d5c8d4345957037ded9303226" >View SAFEMARS Analytics</ExternalLink>
+              <ExternalLink href="https://pancakeswap.info/pool/0x87b8a381d469ab90536fb51a2057bdbeae613f36" >View HamsterCoin Analytics</ExternalLink>
             ) : null}
           </AutoColumn>
         </CardSection>

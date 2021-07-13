@@ -288,7 +288,7 @@ const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
 export default function Header() {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
-  const safeEarthToken = new Token(ChainId.MAINNET, '0x3aD9594151886Ce8538C1ff615EFa2385a8C3A88', 9, 'SAFEMARS', 'SafeMars')
+  const safeEarthToken = new Token(ChainId.MAINNET, '0xb7b36CA86685Af52186f1f9394e91d115A9Da654', 18, 'HAM', 'Hamster')
 
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
 
@@ -330,7 +330,7 @@ export default function Header() {
             <StyledNavLink id={`stake-nav-link`} to={'/stake'}>
               {t('Stake')}
             </StyledNavLink>
-          <StyledExternalLink id={`stake-nav-link`} href="https://dex.guru/token/0x3ad9594151886ce8538c1ff615efa2385a8c3a88-bsc">
+          <StyledExternalLink id={`stake-nav-link`} href="https://poocoin.app/tokens/0xb7b36ca86685af52186f1f9394e91d115a9da654">
             Charts <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>
         </HeaderLinks>
@@ -363,7 +363,7 @@ export default function Header() {
                     </TYPE.white>
                   </HideSmall>
                 )}
-                SAFEMARS
+                HAM
               </UNIAmount>
             </UNIWrapper>
           )}

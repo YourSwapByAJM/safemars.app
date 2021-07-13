@@ -1,7 +1,7 @@
 {
   "background_color": "#fff",
   "display": "standalone",
-  "homepage_url": "https://swap.safeearthcrypto.com",
+  "homepage_url": "https://hamsterswap.app",
   "icons": [
     {
       "src": "./images/192x192_App_Icon.png",
@@ -17,8 +17,8 @@
     }
   ],
   "orientation": "portrait",
-  "name": "EarthSwap",
-  "short_name": "EarthSwap",
+  "name": "Hamster",
+  "short_name": "Hamster",
   "start_url": ".",
   "theme_color": "#66cc66"
 }

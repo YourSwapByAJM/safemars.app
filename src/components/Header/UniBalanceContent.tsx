@@ -36,18 +36,17 @@ const StyledClose = styled(X)`
 /**
  * Content for balance stats modal
  */
-export default function UniBalanceContent({ setShowUniBalanceModal }: { setShowUniBalanceModal: any }) {
+ export default function UniBalanceContent({ setShowUniBalanceModal }: { setShowUniBalanceModal: any }) {
   const { account, chainId } = useActiveWeb3React()
   const safemars = chainId ? SAFEMARS[chainId] : undefined
 
   const totalSupply: TokenAmount | undefined = useTotalSupply(safemars)
- 
-  
 
   const safemarsTotal = useTokenBalance(account ?? undefined, safemars)
-  const safemarsDecimalTotal = safemarsTotal ? new BigNumber(safemarsTotal.toExact()) : undefined
 
 
+ 
+  
   
 
   return (

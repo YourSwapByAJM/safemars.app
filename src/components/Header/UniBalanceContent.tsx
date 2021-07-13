@@ -48,7 +48,7 @@ export default function UniBalanceContent({ setShowUniBalanceModal }: { setShowU
   const safemarsDecimalTotal = safemarsTotal ? new BigNumber(safemarsTotal.toExact()) : undefined
 
   const safemarsBalance = safemarsDecimalTotal
-  : undefined;
+  
 
   return (
     <ContentWrapper gap="lg">

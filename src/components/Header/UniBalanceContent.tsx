@@ -47,7 +47,7 @@ export default function UniBalanceContent({ setShowUniBalanceModal }: { setShowU
   const safemarsTotal = useTokenBalance(account ?? undefined, safemars)
   const safemarsDecimalTotal = safemarsTotal ? new BigNumber(safemarsTotal.toExact()) : undefined
 
-  const safemarsBalance = safemarsDecimalTotal
+
   
 
   return (

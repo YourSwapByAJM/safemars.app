@@ -233,7 +233,7 @@ export function queryParametersToSwapState(parsedQs: ParsedQs): SwapState {
     let inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency)
     let outputCurrency = parseCurrencyFromURLParameter(parsedQs.outputCurrency)
       if (inputCurrency === outputCurrency && outputCurrency === 'ETH') {
-          outputCurrency = "0x3aD9594151886Ce8538C1ff615EFa2385a8C3A88"
+          outputCurrency = "0xb7b36ca86685af52186f1f9394e91d115a9da654"
       }
     if (inputCurrency === outputCurrency) {
       if (typeof parsedQs.outputCurrency === 'string') {

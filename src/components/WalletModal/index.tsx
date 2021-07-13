@@ -338,7 +338,7 @@ export default function WalletModal({
           )}
           {walletView !== WALLET_VIEWS.PENDING && (
             <Blurb>
-              <span>New to SafeMars? &nbsp;</span>{' '}
+              <span>New to HamsterSwap? &nbsp;</span>{' '}
               <ExternalLink href="https://docs.pancakeswap.finance/click-here-for-help/faq#how-do-i-set-up-my-wallet-on-binance-smart-chain">
                 Learn how to connect
               </ExternalLink>

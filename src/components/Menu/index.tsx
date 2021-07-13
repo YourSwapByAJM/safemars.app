@@ -98,15 +98,15 @@ export default function Menu() {
 
       {open && (
         <MenuFlyout>
-          <MenuItem id="link" href="https://safemarscrypto.com/">
+          <MenuItem id="link" href="https://coinhamster.io/">
             <Info size={14} />
             About
           </MenuItem>
-          <MenuItem id="link" href="https://bscscan.com/token/0x3aD9594151886Ce8538C1ff615EFa2385a8C3A88">
+          <MenuItem id="link" href="https://bscscan.com/token/0xb7b36ca86685af52186f1f9394e91d115a9da654">
             <Code size={14} />
             Contract
           </MenuItem>
-          <MenuItem id="link" href="https://t.me/safemars">
+          <MenuItem id="link" href="https://t.me/Hamster_Finance">
             <MessageCircle size={14} />
             Telegram
           </MenuItem>

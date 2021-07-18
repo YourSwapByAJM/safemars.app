@@ -330,7 +330,7 @@ export default function Header() {
             <StyledNavLink id={`stake-nav-link`} to={'/stake'}>
               {t('Stake')}
             </StyledNavLink>
-          <StyledExternalLink id={`stake-nav-link`} href="https://poocoin.app/tokens/0xb7b36ca86685af52186f1f9394e91d115a9da654">
+          <StyledExternalLink id={`stake-nav-link`} href="https://poocoin.app/tokens/">
             Charts <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>
         </HeaderLinks>

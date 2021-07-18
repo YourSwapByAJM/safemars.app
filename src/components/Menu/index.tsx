@@ -98,7 +98,7 @@ export default function Menu() {
 
       {open && (
         <MenuFlyout>
-          <MenuItem id="link" href="-">
+          <MenuItem id="link" href="">
             <Info size={14} />
             About
           </MenuItem>

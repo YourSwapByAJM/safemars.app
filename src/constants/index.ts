@@ -35,10 +35,10 @@ export const ETH = new Token(
   'Binance-Peg Ethereum Token'
 )
 
-const SAFEMARS_ADDRESS = '0xb7b36ca86685af52186f1f9394e91d115a9da654'
+const SAFEMARS_ADDRESS = '0xed3b6931f1ef75bf1c714bd1652b30f009f79677'
 export const SAFEMARS: { [chainId in ChainId]: Token } = {
-    [ChainId.MAINNET]: new Token(ChainId.MAINNET, SAFEMARS_ADDRESS, 18, 'HAM', 'Hamster'),
-    [ChainId.BSCTESTNET]: new Token(ChainId.BSCTESTNET, '0x0000000000000000000000000000000000000000', 18, 'HAM', 'Hamster')
+    [ChainId.MAINNET]: new Token(ChainId.MAINNET, SAFEMARS_ADDRESS, 18, 'DMSwap', 'demoswap'),
+    [ChainId.BSCTESTNET]: new Token(ChainId.BSCTESTNET, '0x0000000000000000000000000000000000000000', 18, 'DMSwap', 'demoswap')
 }
 
 const WETH_ONLY: ChainTokenList = {

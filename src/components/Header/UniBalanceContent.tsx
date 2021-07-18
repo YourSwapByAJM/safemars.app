@@ -55,7 +55,7 @@ const StyledClose = styled(X)`
         <CardNoise />
         <CardSection gap="md">
           <RowBetween>
-            <TYPE.white color="white">Your Hamster Breakdown</TYPE.white>
+            <TYPE.white color="white">Your Demo Token Breakdown</TYPE.white>
             <StyledClose stroke="white" onClick={() => setShowUniBalanceModal(false)} />
           </RowBetween>
         </CardSection>
@@ -82,7 +82,7 @@ const StyledClose = styled(X)`
               <TYPE.white color="white">{totalSupply?.toFixed(0, { groupSeparator: ',' })}</TYPE.white>
             </RowBetween>
             {safemars && safemars.chainId === ChainId.MAINNET ? (
-              <ExternalLink href="https://pancakeswap.info/pool/0x87b8a381d469ab90536fb51a2057bdbeae613f36" >View HamsterCoin Analytics</ExternalLink>
+              <ExternalLink href="https://pancakeswap.info/pool/" >View DemoSwap Analytics</ExternalLink>
             ) : null}
           </AutoColumn>
         </CardSection>

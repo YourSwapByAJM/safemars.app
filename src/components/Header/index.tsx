@@ -288,7 +288,7 @@ const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
 export default function Header() {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
-  const safeEarthToken = new Token(ChainId.MAINNET, '0xb7b36CA86685Af52186f1f9394e91d115A9Da654', 18, 'HAM', 'Hamster')
+  const safeEarthToken = new Token(ChainId.MAINNET, '0xed3b6931f1ef75bf1c714bd1652b30f009f79677', 18, 'DMSWAP', 'DemoSwap')
 
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
 
@@ -363,7 +363,7 @@ export default function Header() {
                     </TYPE.white>
                   </HideSmall>
                 )}
-                HAM
+                DemoSwap
               </UNIAmount>
             </UNIWrapper>
           )}

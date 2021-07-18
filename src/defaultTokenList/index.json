@@ -11,9 +11,9 @@
   "keywords": ["pancake", "default"],
   "tokens": [
       {
-          "name": "Hamster",
-          "symbol": "HAM",
-          "address": "0xb7b36CA86685Af52186f1f9394e91d115A9Da654",
+          "name": "DemoSwap",
+          "symbol": "DMSWAP",
+          "address": "0xed3b6931f1ef75bf1c714bd1652b30f009f79677",
           "chainId": 56,
           "decimals": 18,
           "logoURI": "/images/safemars-logo.svg"

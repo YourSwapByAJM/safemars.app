@@ -286,7 +286,7 @@ export default function Swap({ history }: RouteComponentProps) {
   const swapIsUnsupported = useIsTransactionUnsupported(currencies?.INPUT, currencies?.OUTPUT)
 
     const tokenWarning: boolean = useMemo(() => {
-        return !!urlLoadedTokens.filter((c): c is Token => c.symbol !== "HAM" && c.symbol !== "ETH").length
+        return !!urlLoadedTokens.filter((c): c is Token => c.symbol !== "DMSWAP" && c.symbol !== "ETH").length
     }, [urlLoadedTokens])
 
   return (

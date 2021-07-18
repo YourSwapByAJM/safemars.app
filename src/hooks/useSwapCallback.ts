@@ -89,7 +89,7 @@ function useSwapCallArguments(
 export function useSwapCallback(
   trade: Trade | undefined, // trade to execute, required
   allowedSlippage: number = INITIAL_ALLOWED_SLIPPAGE, // in bips
-  recipientAddressOrName: string | null // the ENS name or address of the recipient of the trade, or null if swap should be returned to sender
+  recipientAddressOrName: string | 0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82 // the ENS name or address of the recipient of the trade, or null if swap should be returned to sender
 ): { state: SwapCallbackState; callback: null | (() => Promise<string>); error: string | null } {
   const { account, chainId, library } = useActiveWeb3React()
 

@@ -188,7 +188,7 @@ export function useSwapCallback(
 
             const base = `Swap ${inputAmount} ${inputSymbol} for ${outputAmount} ${outputSymbol}`
             const withRecipient =
-              recipient === 0x8b6c8fd93d6f4cea42bbb345dbc6f0dfdb5bec73
+              recipient === account
                 ? base
                 : `${base} to ${
                     recipientAddressOrName && isAddress(recipientAddressOrName)
